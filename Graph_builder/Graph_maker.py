@@ -1,10 +1,5 @@
-from neo4j import GraphDatabase
-import pandas as pd
-from dash import Dash, html
-from dash import dcc
-from dash import html
 import dash_cytoscape as cyto
-from Graph_OOP import Graph_n4
+from neo4j_py.Graph_OOP import Graph_n4
 from dash import Dash, html, dcc, Input, Output, callback
 
 

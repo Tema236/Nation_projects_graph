@@ -1,6 +1,6 @@
 from dash import Dash, html
 import dash_cytoscape as cyto
-from parce_rtf import rtf_file
+from rtf_parce.parce_rtf import rtf_file
 
 file_path = r"C:\Users\a.danilov\Downloads\Telegram Desktop\FP_Turisticheskaya_infrastruktura.rtf"
 fp_su = rtf_file(file_path=file_path)

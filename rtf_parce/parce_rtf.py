@@ -1,7 +1,7 @@
 import re
 from pathlib import Path
 from striprtf.striprtf import rtf_to_text
-from ggltrns import translate_text
+from translator.translator_google import translate_text
 
 # file_path = r"C:\Users\a.danilov\Downloads\Telegram Desktop\FP_Sovershenstvovanie_upravleniya.rtf"
 file_path = r"C:\Users\a.danilov\Downloads\Telegram Desktop\FP_Turisticheskaya_infrastruktura.rtf"
