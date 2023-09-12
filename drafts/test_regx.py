@@ -60,4 +60,15 @@ table_title_table = '''
 
 str_split = 'Администратор федерального проекта|Аргун Г.Р.|Заместитель директора департамента'
 
-print(str_split.split('|'))
+# print(str_split.split('|'))
+
+import os
+
+# Указываем путь к директории
+directory = r"C:\PY\Nation_projects_graph\files"
+
+# Получаем список файлов
+files = os.listdir(directory)
+
+# Выводим список файлов
+print(files)

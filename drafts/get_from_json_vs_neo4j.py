@@ -5,7 +5,7 @@ import networkx as nx
 
 driver = GraphDatabase.driver("neo4j://10.220.75.45:7687", auth=("neo4j", "q1w2e3r4"))
 
-with open('../files/factor_hierarchy.json', encoding='utf-8') as f:
+with open('factor_hierarchy.json', encoding='utf-8') as f:
     templates = json.load(f)
 
 nodes = [dict({'data': dict({'id': node['id'], 'label': node['name'], 'node_type': node['node_type']}), 'selected': False}) for node in templates['nodes']]

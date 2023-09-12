@@ -5,7 +5,7 @@ import textwrap as tw
 
 nodes = []
 
-with open('../files/factor_hierarchy.json', encoding='utf-8') as f:
+with open('../drafts/factor_hierarchy.json', encoding='utf-8') as f:
     templates = json.load(f)
 
 # print(templates)

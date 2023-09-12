@@ -3,9 +3,14 @@ from pathlib import Path
 from striprtf.striprtf import rtf_to_text
 from translator.translator_google import translate_text
 
-# file_path = r"C:\Users\a.danilov\Downloads\Telegram Desktop\FP_Sovershenstvovanie_upravleniya.rtf"
-file_path = r"C:\Users\a.danilov\Downloads\Telegram Desktop\FP_Turisticheskaya_infrastruktura.rtf"
-# file_path = r"C:\Users\a.danilov\Downloads\Telegram Desktop\FP_Dostupnost'_turisticheskogo_produkta.rtf"
+
+# # Удаление дубликатов в массиве
+# def delete_dubles_in_list(list):
+#     new_list = []
+#     for item in list:
+#         if item not in new_list:
+#             new_list.append(item)
+#     return new_list
 
 class rtf_file(object):
     def __init__(self, file_path):
@@ -16,25 +21,25 @@ class rtf_file(object):
         text = rtf_to_text(content)
 
         federal_project_name = re.search(r'федерального проекта\|\|(\D*)\|\|', text).group(1).strip().replace('"','') #название федерального
-        federal_project_name_id = translate_text(federal_project_name, 'en')
+        federal_project_name_id = translate_text(federal_project_name, 'en') #создать id для федерального проекта
 
         names_of_tables = re.findall(r"\n(\d{1,2}\. .*)\|\|", text) #Названия таблиц в тексте
 
-        tables_main = [text.split(names_of_tables[i])[-1].split(names_of_tables[i+1])[0].strip('||') for i in range(0,6)]
+        tables_main = [text.split(names_of_tables[i])[-1].split(names_of_tables[i+1])[0].strip('||') for i in range(0,6)] #достать первые 7 таблиц
 
-        tables_main[0] = re.sub(r'\n\d\|\|\n', '', tables_main[0])
-        tables_main[0] = tables_main[0].strip('\n').strip()
-        # print(tables_main[0])
-        # print(tables_main[0].count('||\n'))
+        tables_main[0] = re.sub(r'\n\d\|\|\n', '', tables_main[0]) #убрать из нулевой таблицы со связями нумерации страниц
+        tables_main[0] = tables_main[0].strip('\n').strip() #убрать лишние отступы и побелы
         text_to_destroy = tables_main[0]
 
         table_1 = []
 
+        #Разбиение строк по колонкам
         for num_string in range(0, tables_main[0].count('||\n')):
             a = text_to_destroy.split('||\n')[0]
             text_to_destroy = text_to_destroy.replace(f'{a}||\n', '')
             table_1.append(a.replace('\n', ' ').split('|'))
 
+        #Удаление дубликатов в массиве
         def delete_dubles_in_list(list):
             new_list = []
             for item in list:
@@ -42,6 +47,7 @@ class rtf_file(object):
                     new_list.append(item)
             return new_list
 
+        #Удалить дубликаты строк
         table_1_unique = delete_dubles_in_list(table_1)
 
         national_project_name = table_1_unique[0][1].replace('"','')

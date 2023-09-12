@@ -5,7 +5,7 @@ from neo4j import GraphDatabase
 driver = GraphDatabase.driver("neo4j://10.220.75.45:7687", auth=("neo4j", "q1w2e3r4"))
 print(driver)
 
-with open('../files/factor_hierarchy.json', encoding='utf-8') as f:
+with open('../drafts/factor_hierarchy.json', encoding='utf-8') as f:
     templates = json.load(f)
 
 with driver.session() as session:

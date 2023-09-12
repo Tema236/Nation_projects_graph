@@ -1,13 +1,41 @@
 from dash import Dash, html
 import dash_cytoscape as cyto
 from rtf_parce.parce_rtf import rtf_file
+# from rtf_parce import parce_rtf
+import os
 
-file_path = r"C:\Users\a.danilov\Downloads\Telegram Desktop\FP_Turisticheskaya_infrastruktura.rtf"
-fp_su = rtf_file(file_path=file_path)
-result = fp_su.parce_rtf_file()
+# file_path = r"C:\PY\Nation_projects_graph\files\FP_Sovershenstvovanie_upravleniya.rtf"
+# file_path = r"C:\PY\Nation_projects_graph\files\FP_Turisticheskaya_infrastruktura.rtf"
+# file_path = r"C:\PY\Nation_projects_graph\files\FP_Dostupnost'_turisticheskogo_produkta.rtf"
 
-nodes = result[0]
-edges = result[1]
+# Удаление дубликатов в массиве
+def delete_dubles_in_list(list):
+    new_list = []
+    for item in list:
+        if item not in new_list:
+            new_list.append(item)
+    return new_list
+
+# Указываем путь к директории
+directory = r"C:\PY\Nation_projects_graph\files"
+
+# Получаем список файлов
+files = os.listdir(directory)
+
+nodes = []
+edges = []
+
+for file in files:
+
+    file_path = f'{directory}\{file}'
+    fp_su = rtf_file(file_path=file_path)
+    result = fp_su.parce_rtf_file()
+
+    nodes += result[0]
+    edges += result[1]
+
+nodes = delete_dubles_in_list(nodes)
+edges = delete_dubles_in_list(edges)
 
 app = Dash(__name__)
 
@@ -69,7 +97,7 @@ app.layout = html.Div([
             'fit': True,
             'directed': False,
             'padding': 100,
-            'roots': '[id = "tourism_and_hospitality_industry"]',
+            'roots': '[node_type = "national_project"]',
             'circle': False,
             'grid': False,
             'spacingFactor': 11,
