@@ -1,10 +1,41 @@
 import dash_cytoscape as cyto
 from neo4j_py.Graph_OOP import Graph_n4
 from dash import Dash, html, Input, Output, callback
+import os
+from rtf_parce.parce_rtf import rtf_file
 
+# graphn4 = Graph_n4()
+# elements = graphn4.get_full_graph()
 
-graphn4 = Graph_n4()
-elements = graphn4.get_full_graph()
+def delete_dubles_in_list(list):
+    new_list = []
+    for item in list:
+        if item not in new_list:
+            new_list.append(item)
+    return new_list
+
+# Указываем путь к директории
+directory = r"C:\PY\Nation_projects_graph\files"
+
+# Получаем список файлов
+files = os.listdir(directory)
+
+nodes = []
+edges = []
+
+for file in files:
+
+    file_path = f'{directory}\{file}'
+    fp_su = rtf_file(file_path=file_path)
+    result = fp_su.parce_rtf_file()
+
+    nodes += result[0]
+    edges += result[1]
+
+nodes = delete_dubles_in_list(nodes)
+edges = delete_dubles_in_list(edges)
+
+elements = nodes+edges
 
 default_stylesheet = [
             {
@@ -19,7 +50,7 @@ default_stylesheet = [
             {
                 'selector': 'node',
                 'style': {
-                    'label': 'data(name)',
+                    'label': 'data(label)',
                     'font-size': 'large',
                     'background-color': '#00bfff',
                     'text-wrap': 'wrap'
