@@ -26,6 +26,7 @@ class rtf_file(object):
         names_of_tables = re.findall(r"\n(\d{1,2}\. .*)\|\|", text) #Названия таблиц в тексте
 
         tables_main = [text.split(names_of_tables[i])[-1].split(names_of_tables[i+1])[0].strip('||') for i in range(0,6)] #достать первые 7 таблиц
+        print(names_of_tables)
 
         tables_main[0] = re.sub(r'\n\d\|\|\n', '', tables_main[0]) #убрать из нулевой таблицы со связями нумерации страниц
         tables_main[0] = tables_main[0].strip('\n').strip() #убрать лишние отступы и побелы
@@ -69,11 +70,9 @@ class rtf_file(object):
             if 'Государственная программа' in table_1_unique[str_num]:
                 for element in range(len(table_1_unique[str_num])):
                     if table_1_unique[str_num][element] == 'Государственная программа':
-                        # print(table_1_unique[str_num][element + 1])
                         programs.append({'data':{'id': translate_text(re.sub(r'\d.', '', table_1_unique[str_num][element + 1]), 'en'), 'label': re.sub(r'\d.', '', table_1_unique[str_num][element + 1]), 'node_type': 'state_program'}})
 
             elif len(table_1_unique[str_num]) > 1 and 'программы' not in table_1_unique[str_num][1]:
-                # print(table_1_unique[str_num][1])
                 programs.append({'data':{'id': translate_text(re.sub(r'\d.', '', table_1_unique[str_num][1]).strip(), 'en'), 'label':re.sub(r'\d.', '', table_1_unique[str_num][1]).strip(), 'node_type': 'subprogram'}})
 
         nodes = [{'data':{'id': national_project_name_id,'label': national_project_name, 'node_type': 'national_project'}}, {'data':{
@@ -89,31 +88,25 @@ class rtf_file(object):
                                                                     'node_type': 'federal_project'}}] + programs
 
         links = []
-        # link_1 = f'{national_project_name} -> {federal_project_name}'
         link_1 = {'data':{'source': national_project_name_id, 'target': federal_project_name_id}}
         links.append(link_1)
         for num_prog in range(0, len(programs)):
-            # print(programs[num_prog]['id'][0])
-            # if programs[num_prog]['data']['id'][0] in ['0','1','2','3','4','5','6','7','8','9']:
             if programs[num_prog]['data']['node_type'] == 'subprogram':
-                # print(f'{programs[num_prog-1]["id"]} -> {programs[num_prog]["id"]}')
-                # links.append(f'{programs[num_prog-1]["id"]} -> {programs[num_prog]["id"]}')
                 links.append({'data':{'source': programs[num_prog-1]['data']['id'], 'target': programs[num_prog]['data']['id']}})
         for prog in programs:
-            # if prog['data']['id'][0] not in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']:
             if prog['data']['node_type'] != 'subprogram':
-                # links.append(f'{federal_project_name} -> {prog["id"]}')
                 links.append({'data':{'source': federal_project_name_id, 'target': prog['data']['id']}})
 
         return nodes, links
 
-if __name__ == '__main__':
-    fp_su = rtf_file(file_path=file_path)
-    result = fp_su.parce_rtf_file()
-    # print(result[0])
-    # print(result[1])
-    for res in result[0]:
-        print(res)
-
-    for res in result[1]:
-        print(res)
+# if __name__ == '__main__':
+#     file_path = r"C:\PY\Nation_projects_graph\files\FP_Dostupnost'_turisticheskogo_produkta.rtf"
+#     fp_su = rtf_file(file_path=file_path)
+#     result = fp_su.parce_rtf_file()
+#     # for res in result[0]:
+#     #     print(res)
+#     #
+#     # for res in result[1]:
+#     #     print(res)
+#     print(result[0])
+#     print(result[1])
