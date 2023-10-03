@@ -26,7 +26,10 @@ def parce_table(table):
             index = string_of_table.index('№ п/п')
             string_of_table = string_of_table[:index]
 
-        print(string_of_table)
+        if set(string_of_table) == {''}:
+            pass
+        else:
+            print(string_of_table)
 
     print('-------------------------')
 

@@ -110,8 +110,11 @@
 #
 # print(tw.fill(str_1, width=20))
 
-a = ['', 'dwada', '', '21321', 'dqwd1']
-if '#5' in a:
-    index = a.index('#5')
-    a = a[:index]
-print(a)
+# a = ['', 'dwada', '', '21321', 'dqwd1']
+a = ['', '']
+# if '#5' in a:
+#     index = a.index('#5')
+#     a = a[:index]
+print(set(a))
+if set(a) == {''}:
+    print(')')
