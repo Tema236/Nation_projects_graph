@@ -12,16 +12,16 @@ def delete_dubles_in_list(list):
 
 
 def parce_table(table):
-    print(table)
-    print('------------------------')
+    # print(table)
+    # print('------------------------')
     # table = re.sub(r'\n\d{1,}\|\|\n', '', table)  # убрать из нулевой таблицы со связями нумерации страниц
     table = re.sub(r'\n\d{1,}\|{1,3}\n', '', table)  # убрать из нулевой таблицы со связями нумерации страниц
     table = table.strip('\n').strip()  # убрать лишние отступы и побелы
-    text_to_destroy = table.replace('\xa0', '').replace('\u200b', '')
-    table_2 = text_to_destroy.split('||\n')
+    text_to_destroy = table.replace('\xa0', '').replace('\u200b', '') # убрать символ \u200b
+    table_2 = text_to_destroy.split('||\n') # разделить текст по строкам
     table_2 = delete_dubles_in_list(table_2)
     for el in table_2:
-        string_of_table = el.split('|')
+        string_of_table = el.split('|') # разделить строку по колонкам
         if '№ п/п' in string_of_table and string_of_table[0] != '№ п/п':
             index = string_of_table.index('№ п/п')
             string_of_table = string_of_table[:index]
