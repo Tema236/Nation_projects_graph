@@ -10,28 +10,28 @@ df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapmi
 PLOTLY_LOGO = "https://images.plot.ly/logo/new-branding/plotly-logomark.png"
 AC_LOGO = 'https://dt.ac.gov.ru/dwh_new/template/assets/menu_logo_ac.svg'
 
-navbar = dbc.Navbar(
-    dbc.Container(
-        [
-            html.A(
-                # Use row and col to control vertical alignment of logo / brand
-                dbc.Row(
-                    [
-                        dbc.Col(html.Img(src=AC_LOGO, height="30px")),
-                        dbc.Col(dbc.NavbarBrand("Национальные проекты Российской Федерации", className="ms-2")),
-                        # dbc.Col(dbc.NavItem(dbc.NavLink("Помощь", href="#")))
-                    ],
-                    align="center",
-                    className="g-0",
-                ),
-                href="https://plotly.com",
-                style={"textDecoration": "none"},
-            ),
-        ]
-    ),
-    color="dark",
-    dark=True,
-)
+# navbar = dbc.Navbar(
+#     dbc.Container(
+#         [
+#             html.A(
+#                 # Use row and col to control vertical alignment of logo / brand
+#                 dbc.Row(
+#                     [
+#                         dbc.Col(html.Img(src=AC_LOGO, height="30px")),
+#                         dbc.Col(dbc.NavbarBrand("Национальные проекты Российской Федерации", className="ms-2")),
+#                         # dbc.Col(dbc.NavItem(dbc.NavLink("Помощь", href="#")))
+#                     ],
+#                     align="center",
+#                     className="g-0",
+#                 ),
+#                 href="https://plotly.com",
+#                 style={"textDecoration": "none"},
+#             ),
+#         ]
+#     ),
+#     color="dark",
+#     dark=True,
+# )
 
 # navbar = dbc.NavbarSimple(
 #     children=[
@@ -62,6 +62,20 @@ navbar = dbc.Navbar(
 #     color="dark",
 #     dark=True,
 # )
+
+navbar = dbc.Navbar(
+    dbc.Container(
+        [
+            dbc.NavbarBrand(html.Img(src=AC_LOGO, height="30px"), href="#"),
+            dbc.NavbarBrand("Национальные проекты Российской Федерации", className="mx-auto"),
+            dbc.NavItem(dbc.NavLink("Помощь", href="#")),
+        ]
+    ),
+    color="dark",
+    dark=True,
+    className="mb-4",
+)
+
 
 # accordion = html.Div(
 #     dbc.Accordion(
