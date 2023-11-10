@@ -9,6 +9,7 @@ df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapmi
 
 
 PLOTLY_LOGO = "https://images.plot.ly/logo/new-branding/plotly-logomark.png"
+AC_LOGO = 'https://dt.ac.gov.ru/dwh_new/template/assets/menu_logo_ac.svg'
 
 navbar = dbc.Navbar(
     dbc.Container(
@@ -17,7 +18,7 @@ navbar = dbc.Navbar(
                 # Use row and col to control vertical alignment of logo / brand
                 dbc.Row(
                     [
-                        dbc.Col(html.Img(src=PLOTLY_LOGO, height="30px")),
+                        dbc.Col(html.Img(src=AC_LOGO, height="30px")),
                         dbc.Col(dbc.NavbarBrand("Navbar", className="ms-2")),
                     ],
                     align="center",

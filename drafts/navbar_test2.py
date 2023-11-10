@@ -8,6 +8,7 @@ import plotly.express as px
 df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminder2007.csv')
 
 PLOTLY_LOGO = "https://images.plot.ly/logo/new-branding/plotly-logomark.png"
+AC_LOGO = 'https://dt.ac.gov.ru/dwh_new/template/assets/menu_logo_ac.svg'
 
 navbar = dbc.Navbar(
     dbc.Container(
@@ -16,8 +17,9 @@ navbar = dbc.Navbar(
                 # Use row and col to control vertical alignment of logo / brand
                 dbc.Row(
                     [
-                        dbc.Col(html.Img(src=PLOTLY_LOGO, height="30px")),
-                        dbc.Col(dbc.NavbarBrand("Navbar", className="ms-2")),
+                        dbc.Col(html.Img(src=AC_LOGO, height="30px")),
+                        dbc.Col(dbc.NavbarBrand("Национальные проекты Российской Федерации", className="ms-2")),
+                        # dbc.Col(dbc.NavItem(dbc.NavLink("Помощь", href="#")))
                     ],
                     align="center",
                     className="g-0",
@@ -30,6 +32,36 @@ navbar = dbc.Navbar(
     color="dark",
     dark=True,
 )
+
+# navbar = dbc.NavbarSimple(
+#     children=[
+#         dbc.NavItem(
+#             dbc.NavLink(
+#                 "Article",
+#                 href="https://medium.com/plotly/exploring-and-investigating-network-relationships-with-plotlys-dash-and-dash-cytoscape-ec625ef63c59?source=friends_link&sk=e70d7561578c54f35681dfba3a132dd5",
+#             )
+#         ),
+#         dbc.NavItem(
+#             dbc.NavLink(
+#                 "Source Code",
+#                 href="https://github.com/plotly/dash-sample-apps/tree/master/apps/dash-cytoscape-lda",
+#             )
+#         ),
+#     ],
+#     brand="Plotly dash-cytoscape demo - CORD-19 LDA analysis output",
+#     brand_href="#",
+#     color="dark",
+#     dark=True,
+# )
+
+# navbar = dbc.Navbar(
+#     [
+#         dbc.NavbarBrand("Какое-то название", className="mx-auto"),
+#         dbc.NavItem(dbc.NavLink("Помощь", href="#")),
+#     ],
+#     color="dark",
+#     dark=True,
+# )
 
 # accordion = html.Div(
 #     dbc.Accordion(

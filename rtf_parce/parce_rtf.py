@@ -99,14 +99,14 @@ class rtf_file(object):
 
         return nodes, links
 
-# if __name__ == '__main__':
-#     file_path = r"C:\PY\Nation_projects_graph\files\FP_Dostupnost'_turisticheskogo_produkta.rtf"
-#     fp_su = rtf_file(file_path=file_path)
-#     result = fp_su.parce_rtf_file()
-#     # for res in result[0]:
-#     #     print(res)
-#     #
-#     # for res in result[1]:
-#     #     print(res)
-#     print(result[0])
-#     print(result[1])
+if __name__ == '__main__':
+    file_path = r"C:\PY\Nation_projects_graph\files\FP_Dostupnost'_turisticheskogo_produkta.rtf"
+    fp_su = rtf_file(file_path=file_path)
+    result = fp_su.parce_rtf_file()
+    # for res in result[0]:
+    #     print(res)
+    #
+    # for res in result[1]:
+    #     print(res)
+    print(result[0])
+    print(result[1])

@@ -4,12 +4,18 @@ from striprtf.striprtf import rtf_to_text
 from translator.translator_google import translate_text
 import pandas as pd
 
+pd.set_option('display.max_rows', 550)
+# pd.set_option('expand_frame_repr', True)
+pd.set_option('display.max_columns', 500)
+pd.set_option('display.width', 1000)
+pd.set_option('max_colwidth', 70)
+
 headers_of_tables = {
-    2: [],
-    3: [],
-    4: [],
-    5: [],
-    6: []
+    2: ['№ п/п', 'Показатели федерального проекта', 'Уровень показателя', 'Единица измерения (по ОКЕИ)', 'Базовое значение', 'Базовое значение год', 'Период, год 2018', 'Период, год 2019', 'Период, год 2020', 'Период, год 2021', 'Период, год 2022', 'Период, год 2023', 'Период, год 2024', 'Период, год 2025', 'Период, год 2026', 'Период, год 2027', 'Период, год 2028', 'Период, год 2029', 'Период, год 2030', 'Информационная система (источник данных)'],
+    3: ['№ п/п', 'Показатели национального и федерального проекта', 'Уровень показателя', 'Единица измерения (по ОКЕИ)', 'Плановые значения по месяцам янв.', 'Плановые значения по месяцам фев.', 'Плановые значения по месяцам мар.', 'Плановые значения по месяцам апр.', 'Плановые значения по месяцам май.', 'Плановые значения по месяцам июнь', 'Плановые значения по месяцам июль', 'Плановые значения по месяцам авг.', 'Плановые значения по месяцам сен.', 'Плановые значения по месяцам окт.', 'Плановые значения по месяцам ноя.', 'На конец 2023 года'],
+    4: ['№ п/п', 'Наименование результата', 'Наименование структурных элементов государственных программ Российской Федерации', 'Единица измерения (по ОКЕИ)', 'Базовое значение', 'Базовое значение год', 'Период, год 2018', 'Период, год 2019', 'Период, год 2020', 'Период, год 2021', 'Период, год 2022', 'Период, год 2023', 'Период, год 2024', 'Период, год 2025', 'Период, год 2026', 'Период, год 2027', 'Период, год 2028', 'Период, год 2029', 'Период, год 2030', 'Тип результата', 'Связь с показателем национальной цели развития Российской Федерации'],
+    5: ['№ п/п', 'Наименование результата и источники финансирования', 'Объем финансового обеспечения по годам реализации (тыс. рублей) 2018', 'Объем финансового обеспечения по годам реализации (тыс. рублей) 2019', 'Объем финансового обеспечения по годам реализации (тыс. рублей) 2020', 'Объем финансового обеспечения по годам реализации (тыс. рублей) 2021', 'Объем финансового обеспечения по годам реализации (тыс. рублей) 2022', 'Объем финансового обеспечения по годам реализации (тыс. рублей) 2023', 'Объем финансового обеспечения по годам реализации (тыс. рублей) 2024', 'Объем финансового обеспечения по годам реализации (тыс. рублей) 2025', 'Объем финансового обеспечения по годам реализации (тыс. рублей) 2026', 'Объем финансового обеспечения по годам реализации (тыс. рублей) 2027', 'Объем финансового обеспечения по годам реализации (тыс. рублей) 2028', 'Объем финансового обеспечения по годам реализации (тыс. рублей) 2029', 'Объем финансового обеспечения по годам реализации (тыс. рублей) 2030', 'Всего (тыс. рублей)'],
+    6: ['№ п/п', 'Наименование результата', 'План исполнения нарастающим итогом (тыс. рублей)', 'План исполнения нарастающим итогом (тыс. рублей)', 'План исполнения нарастающим итогом (тыс. рублей)', 'План исполнения нарастающим итогом (тыс. рублей)', 'План исполнения нарастающим итогом (тыс. рублей)', 'План исполнения нарастающим итогом (тыс. рублей)', 'План исполнения нарастающим итогом (тыс. рублей)', 'План исполнения нарастающим итогом (тыс. рублей)', 'План исполнения нарастающим итогом (тыс. рублей)', 'План исполнения нарастающим итогом (тыс. рублей)', 'План исполнения нарастающим итогом (тыс. рублей)', 'На конец 2023 года (тыс. рублей)']
 }
 
 def delete_dubles_in_list(list):
@@ -19,6 +25,9 @@ def delete_dubles_in_list(list):
             new_list.append(item)
     return new_list
 
+def delete_elements_in_end(n, a):
+    for last_element in range(n):
+        a.pop(len(a)-1)
 
 def parce_table(table, table_name):
     table_in_list = []
@@ -30,7 +39,8 @@ def parce_table(table, table_name):
     text_to_destroy = table.replace('\xa0', '').replace('\u200b', '') # убрать символ \u200b
     table_2 = text_to_destroy.split('||\n') # разделить текст по строкам
     table_2 = delete_dubles_in_list(table_2)
-    for el in table_2:
+    # print(table_2[2:])
+    for el in table_2[2:]:
         string_of_table = el.split('|') # разделить строку по колонкам
         if '№ п/п' in string_of_table and string_of_table[0] != '№ п/п':
             index = string_of_table.index('№ п/п')
@@ -39,14 +49,19 @@ def parce_table(table, table_name):
         if set(string_of_table) == {''}:
             pass
         else:
-            print(string_of_table)
-            # print(len(string_of_table))
+            # print(string_of_table)
+            # print(len(headers_of_tables[int(table_name.split('. ')[0])]),len(string_of_table))
+            if len(string_of_table) > len(headers_of_tables[int(table_name.split('. ')[0])]):
+                n = len(string_of_table) - len(headers_of_tables[int(table_name.split('. ')[0])])
+                delete_elements_in_end(n, string_of_table)
+
+            # print(string_of_table)
             table_in_list.append(string_of_table)
 
     # print(table_in_list[2:])
-    # if len(table_in_list[0]) != 2:
-    #     df = pd.DataFrame(table_in_list, columns=table_in_list[0])
-    #     print(df)
+    # print(table_name.split('. ')[0]) # номер таблицы, чтобы брать шапку из словаря
+    df = pd.DataFrame(table_in_list, columns=headers_of_tables[int(table_name.split('. ')[0])])
+    print(df)
     print('-------------------------')
 
 class rtf_file(object):
@@ -57,41 +72,14 @@ class rtf_file(object):
         content = Path(self.file_path).read_text()
         text = rtf_to_text(content)
 
-        federal_project_name = re.search(r'федерального проекта\|\|(\D*)\|\|', text).group(1).strip().replace('"',
-                                                                                                              '')  # название федерального
-        federal_project_name_id = translate_text(federal_project_name, 'en')  # создать id для федерального проекта
-
         names_of_tables = re.findall(r"\n(\d{1,2}\. .*)\|\|", text)  # Названия таблиц в тексте
 
         tables_main = [text.split(names_of_tables[i])[-1].split(names_of_tables[i + 1])[0].strip('||') for i in
                        range(0, 6)]  # достать первые 7 таблиц
-        # print(names_of_tables)
-        # print(tables_main[1])
-        # tables_main[1] = re.sub(r'\n\d\|\|\n', '', tables_main[1])  # убрать из нулевой таблицы со связями нумерации страниц
-        # tables_main[1] = tables_main[1].strip('\n').strip()  # убрать лишние отступы и побелы
-        # text_to_destroy = tables_main[1].replace('\xa0','').replace(' ||','||')
-        #
-        # # table_2 = text_to_destroy.split('||\n')
-        # # print(table_2)
-        #
-        # table_2 = []
-        #
-        # # Разбиение строк по колонкам
-        # for num_string in range(0, tables_main[1].count('||\n')):
-        #     a = text_to_destroy.split('||\n')[0]
-        #     text_to_destroy = text_to_destroy.replace(f'{a}||\n', '')
-        #     table_2.append(a.replace('\n', ' ').split('|'))
-        #
-        # # Удаление дубликатов в массиве
-        #
-        #
-        # # Удалить дубликаты строк
-        # table_2_unique = delete_dubles_in_list(table_2)
-        #
-        # for el in table_2_unique:
-        #     print(el.split('|'))
-        numb = 0
-        for table in tables_main:
+
+        numb = 1
+        # print(tables_main[1:])
+        for table in tables_main[1:]:
             print(names_of_tables[numb])
             parce_table(table, names_of_tables[numb])
             numb += 1
