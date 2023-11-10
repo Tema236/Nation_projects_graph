@@ -2,6 +2,15 @@ import re
 from pathlib import Path
 from striprtf.striprtf import rtf_to_text
 from translator.translator_google import translate_text
+import pandas as pd
+
+headers_of_tables = {
+    2: [],
+    3: [],
+    4: [],
+    5: [],
+    6: []
+}
 
 def delete_dubles_in_list(list):
     new_list = []
@@ -11,7 +20,8 @@ def delete_dubles_in_list(list):
     return new_list
 
 
-def parce_table(table):
+def parce_table(table, table_name):
+    table_in_list = []
     # print(table)
     # print('------------------------')
     # table = re.sub(r'\n\d{1,}\|\|\n', '', table)  # убрать из нулевой таблицы со связями нумерации страниц
@@ -30,7 +40,13 @@ def parce_table(table):
             pass
         else:
             print(string_of_table)
+            # print(len(string_of_table))
+            table_in_list.append(string_of_table)
 
+    # print(table_in_list[2:])
+    # if len(table_in_list[0]) != 2:
+    #     df = pd.DataFrame(table_in_list, columns=table_in_list[0])
+    #     print(df)
     print('-------------------------')
 
 class rtf_file(object):
@@ -77,7 +93,7 @@ class rtf_file(object):
         numb = 0
         for table in tables_main:
             print(names_of_tables[numb])
-            parce_table(table)
+            parce_table(table, names_of_tables[numb])
             numb += 1
 
 
