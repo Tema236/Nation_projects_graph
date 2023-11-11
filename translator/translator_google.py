@@ -28,11 +28,12 @@
 
 import requests
 from bs4 import BeautifulSoup
+import warnings
 
-
+warnings.filterwarnings('ignore')
 def translate_text(text, dest_lang):
     url = "https://translate.google.com/m?sl=ru&tl=" + dest_lang + "&q=" + text.replace(" ", "+").replace("'",'').replace('"','')
-    print(url)
+    # print(url)
     response = requests.get(url, verify=False)
     soup = BeautifulSoup(response.content, 'html.parser')
     result = soup.find("div", class_="result-container").get_text()
