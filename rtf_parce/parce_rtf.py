@@ -2,15 +2,17 @@ import re
 from pathlib import Path
 from striprtf.striprtf import rtf_to_text
 from translator.translator_google import translate_text
+from rtf_parce import parc_tables
+
+# Удаление дубликатов в массиве
+def delete_dubles_in_list(list):
+    new_list = []
+    for item in list:
+        if item not in new_list:
+            new_list.append(item)
+    return new_list
 
 
-# # Удаление дубликатов в массиве
-# def delete_dubles_in_list(list):
-#     new_list = []
-#     for item in list:
-#         if item not in new_list:
-#             new_list.append(item)
-#     return new_list
 
 class rtf_file(object):
     def __init__(self, file_path):
@@ -26,7 +28,7 @@ class rtf_file(object):
         names_of_tables = re.findall(r"\n(\d{1,2}\. .*)\|\|", text) #Названия таблиц в тексте
 
         tables_main = [text.split(names_of_tables[i])[-1].split(names_of_tables[i+1])[0].strip('||') for i in range(0,6)] #достать первые 7 таблиц
-        print(names_of_tables)
+        # print(names_of_tables)
 
         tables_main[0] = re.sub(r'\n\d\|\|\n', '', tables_main[0]) #убрать из нулевой таблицы со связями нумерации страниц
         tables_main[0] = tables_main[0].strip('\n').strip() #убрать лишние отступы и побелы
@@ -39,14 +41,6 @@ class rtf_file(object):
             a = text_to_destroy.split('||\n')[0]
             text_to_destroy = text_to_destroy.replace(f'{a}||\n', '')
             table_1.append(a.replace('\n', ' ').split('|'))
-
-        #Удаление дубликатов в массиве
-        def delete_dubles_in_list(list):
-            new_list = []
-            for item in list:
-                if item not in new_list:
-                    new_list.append(item)
-            return new_list
 
         #Удалить дубликаты строк
         table_1_unique = delete_dubles_in_list(table_1)
@@ -75,6 +69,14 @@ class rtf_file(object):
             elif len(table_1_unique[str_num]) > 1 and 'программы' not in table_1_unique[str_num][1]:
                 programs.append({'data':{'id': translate_text(re.sub(r'\d.', '', table_1_unique[str_num][1]).strip(), 'en'), 'label':re.sub(r'\d.', '', table_1_unique[str_num][1]).strip(), 'node_type': 'subprogram'}})
 
+        numb = 1
+        tables_in_dict = []
+
+        for table in tables_main[1:]:
+            # print(names_of_tables[numb])
+            tables_in_dict.append(parc_tables.parce_table(table, names_of_tables[numb]))
+            numb += 1
+
         nodes = [{'data':{'id': national_project_name_id,'label': national_project_name, 'node_type': 'national_project'}}, {'data':{
                                                                     'id': federal_project_name_id,
                                                                     'label': federal_project_name,
@@ -85,7 +87,8 @@ class rtf_file(object):
                                                                     'federal_project_kurator': federal_project_kurator,
                                                                     'federal_project_leader': federal_project_leader,
                                                                     'federal_project_admin': federal_project_admin,
-                                                                    'node_type': 'federal_project'}}] + programs
+                                                                    'node_type': 'federal_project',
+                                                                    'tables': tables_in_dict}}] + programs
 
         links = []
         link_1 = {'data':{'source': national_project_name_id, 'target': federal_project_name_id}}

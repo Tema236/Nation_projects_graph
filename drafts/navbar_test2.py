@@ -66,33 +66,18 @@ AC_LOGO = 'https://dt.ac.gov.ru/dwh_new/template/assets/menu_logo_ac.svg'
 navbar = dbc.Navbar(
     dbc.Container(
         [
-            dbc.NavbarBrand(html.Img(src=AC_LOGO, height="30px"), href="#"),
-            dbc.NavbarBrand("Национальные проекты Российской Федерации", className="mx-auto"),
+            dbc.NavbarBrand(html.Img(src=AC_LOGO, height="40px"), href="#"),
+            dbc.NavbarBrand("Национальные проекты Российской Федерации", className="mx-auto fs-4"),
+            # dbc.NavbarBrand("Национальные проекты Российской Федерации", className="mx-auto fs-4"),
             dbc.NavItem(dbc.NavLink("Помощь", href="#")),
         ]
     ),
     color="dark",
     dark=True,
-    className="mb-4",
+    # className="mb-4",
 )
 
 
-# accordion = html.Div(
-#     dbc.Accordion(
-#         [
-#             dbc.AccordionItem(
-#                 "This is the content of the first section", title="Item 1"
-#             ),
-#             dbc.AccordionItem(
-#                 "This is the content of the second section", title="Item 2"
-#             ),
-#             dbc.AccordionItem(
-#                 "This is the content of the third section", title="Item 3"
-#             ),
-#         ],
-#         flush=True,
-#     ),
-# )
 dbc_css = "https://cdn.jsdelivr.net/gh/AnnMarieW/dash-bootstrap-templates/dbc.min.css"
 
 app = Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP, dbc.icons.FONT_AWESOME, dbc_css])
@@ -110,21 +95,22 @@ app.layout = html.Div([
             ], title='Показатели национального и федерального проекта'),
             dbc.AccordionItem([
                 "Тут будет таблица"
-            ], title="Помесячный план достижения "),
+            ], title="Помесячный план достижения показателей национального и федерального проекта в 2023 году"),
             dbc.AccordionItem([
                 "Тут будет таблица"
-            ], title="Таблица 4"),
+            ], title="Результаты федерального проекта"),
             dbc.AccordionItem([
                 "Тут будет таблица"
-            ], title="Таблица 5"),
+            ], title="Финансовое обеспечение реализации федерального проекта"),
             dbc.AccordionItem([
                 "Тут будет таблица"
-            ], title="Таблица 6"),
-            dbc.AccordionItem([
-                "Тут будет таблица"
-            ], title="Таблица 7"),
+            ], title="Помесячный план исполнения федерального бюджета в части бюджетных ассигнований, предусмотренных на финансовое обеспечение реализации федерального проекта в 2023 году"),
+            # dbc.AccordionItem([
+            #     "Тут будет таблица"
+            # ], title="Таблица 7"),
         ],
-        flush=True
+        flush=True,
+        start_collapsed=True,
     )
 ])
 

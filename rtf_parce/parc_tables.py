@@ -61,8 +61,8 @@ def parce_table(table, table_name):
     # print(table_in_list[2:])
     # print(table_name.split('. ')[0]) # номер таблицы, чтобы брать шапку из словаря
     df = pd.DataFrame(table_in_list, columns=headers_of_tables[int(table_name.split('. ')[0])])
-    print(df)
-    print('-------------------------')
+    # print(df)
+    # print('-------------------------')
     return df.to_dict(orient='list')
 
 class rtf_file(object):
@@ -96,6 +96,6 @@ if __name__ == '__main__':
     fp_su = rtf_file(file_path=file_path)
     result = fp_su.parce_rtf_file()
     print(result)
-    for table in result:
-        print(pd.DataFrame.from_dict(table))
+    # for table in result:
+    #     print(pd.DataFrame.from_dict(table))
     # result.parce_table()
